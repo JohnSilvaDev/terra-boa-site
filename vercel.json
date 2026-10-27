@@ -1,0 +1,220 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/a-loja",
+      "destination": "https://sistema.terraboagro.com.br/a-loja",
+      "permanent": false
+    },
+    {
+      "source": "/a-loja/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/a-loja/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/carteirinha",
+      "destination": "https://sistema.terraboagro.com.br/carteirinha",
+      "permanent": false
+    },
+    {
+      "source": "/carteirinha/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/carteirinha/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/chamadas",
+      "destination": "https://sistema.terraboagro.com.br/chamadas",
+      "permanent": false
+    },
+    {
+      "source": "/chamadas/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/chamadas/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/clientes",
+      "destination": "https://sistema.terraboagro.com.br/clientes",
+      "permanent": false
+    },
+    {
+      "source": "/clientes/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/clientes/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/destaques",
+      "destination": "https://sistema.terraboagro.com.br/destaques",
+      "permanent": false
+    },
+    {
+      "source": "/destaques/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/destaques/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/dinheiro",
+      "destination": "https://sistema.terraboagro.com.br/dinheiro",
+      "permanent": false
+    },
+    {
+      "source": "/dinheiro/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/dinheiro/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/entrar",
+      "destination": "https://sistema.terraboagro.com.br/entrar",
+      "permanent": false
+    },
+    {
+      "source": "/entrar/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/entrar/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/escolher-senha",
+      "destination": "https://sistema.terraboagro.com.br/escolher-senha",
+      "permanent": false
+    },
+    {
+      "source": "/escolher-senha/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/escolher-senha/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/estoque",
+      "destination": "https://sistema.terraboagro.com.br/estoque",
+      "permanent": false
+    },
+    {
+      "source": "/estoque/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/estoque/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/faltou",
+      "destination": "https://sistema.terraboagro.com.br/faltou",
+      "permanent": false
+    },
+    {
+      "source": "/faltou/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/faltou/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/fiado",
+      "destination": "https://sistema.terraboagro.com.br/fiado",
+      "permanent": false
+    },
+    {
+      "source": "/fiado/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/fiado/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/hoje",
+      "destination": "https://sistema.terraboagro.com.br/hoje",
+      "permanent": false
+    },
+    {
+      "source": "/hoje/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/hoje/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/loja",
+      "destination": "https://sistema.terraboagro.com.br/loja",
+      "permanent": false
+    },
+    {
+      "source": "/loja/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/loja/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/meu-pedido",
+      "destination": "https://sistema.terraboagro.com.br/meu-pedido",
+      "permanent": false
+    },
+    {
+      "source": "/meu-pedido/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/meu-pedido/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/numeros",
+      "destination": "https://sistema.terraboagro.com.br/numeros",
+      "permanent": false
+    },
+    {
+      "source": "/numeros/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/numeros/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/o-que-a-loja-tem",
+      "destination": "https://sistema.terraboagro.com.br/o-que-a-loja-tem",
+      "permanent": false
+    },
+    {
+      "source": "/o-que-a-loja-tem/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/o-que-a-loja-tem/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/pedidos",
+      "destination": "https://sistema.terraboagro.com.br/pedidos",
+      "permanent": false
+    },
+    {
+      "source": "/pedidos/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/pedidos/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/pessoas",
+      "destination": "https://sistema.terraboagro.com.br/pessoas",
+      "permanent": false
+    },
+    {
+      "source": "/pessoas/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/pessoas/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/resolver",
+      "destination": "https://sistema.terraboagro.com.br/resolver",
+      "permanent": false
+    },
+    {
+      "source": "/resolver/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/resolver/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/textos",
+      "destination": "https://sistema.terraboagro.com.br/textos",
+      "permanent": false
+    },
+    {
+      "source": "/textos/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/textos/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/previa",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/previa/:resto*",
+      "destination": "/:resto*",
+      "permanent": false
+    },
+    {
+      "source": "/api/:resto*",
+      "destination": "https://sistema.terraboagro.com.br/api/:resto*",
+      "permanent": false
+    }
+  ]
+}

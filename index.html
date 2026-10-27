@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/support.js"></script>
+<style>
+@font-face{font-family:Hanken Grotesk;font-style:normal;font-weight:100 900;font-display:swap;src:url(/fontes/a6c19694cd327cd4-s.woff2) format("woff2");unicode-range:u+0460-052f,u+1c80-1c8a,u+20b4,u+2de0-2dff,u+a640-a69f,u+fe2e-fe2f}
+@font-face{font-family:Hanken Grotesk;font-style:normal;font-weight:100 900;font-display:swap;src:url(/fontes/851c4691abdf3def-s.woff2) format("woff2");unicode-range:u+0102-0103,u+0110-0111,u+0128-0129,u+0168-0169,u+01a0-01a1,u+01af-01b0,u+0300-0301,u+0303-0304,u+0308-0309,u+0323,u+0329,u+1ea0-1ef9,u+20ab}
+@font-face{font-family:Hanken Grotesk;font-style:normal;font-weight:100 900;font-display:swap;src:url(/fontes/a8a8dd7277bab4cf-s.woff2) format("woff2");unicode-range:u+0100-02ba,u+02bd-02c5,u+02c7-02cc,u+02ce-02d7,u+02dd-02ff,u+0304,u+0308,u+0329,u+1d00-1dbf,u+1e00-1e9f,u+1ef2-1eff,u+2020,u+20a0-20ab,u+20ad-20c0,u+2113,u+2c60-2c7f,u+a720-a7ff}
+@font-face{font-family:Hanken Grotesk;font-style:normal;font-weight:100 900;font-display:swap;src:url(/fontes/313510e2713fb214-s.p.woff2) format("woff2");unicode-range:u+00??,u+0131,u+0152-0153,u+02bb-02bc,u+02c6,u+02da,u+02dc,u+0304,u+0308,u+0329,u+2000-206f,u+20ac,u+2122,u+2191,u+2193,u+2212,u+2215,u+feff,u+fffd}
+
+/* 09/10: a letra manuscrita da carteirinha de exemplo (painel do veterinario).
+   Hospedada aqui, igual a Hanken: o site nao pede fonte pra fora. */
+@font-face{font-family:Caveat;font-style:normal;font-weight:400 700;font-display:swap;src:url(/fontes/caveat-latin.woff2) format("woff2");unicode-range:u+00??,u+0131,u+0152-0153,u+02bb-02bc,u+02c6,u+02da,u+02dc,u+0304,u+0308,u+0329,u+2000-206f,u+20ac,u+2122,u+2191,u+2193,u+2212,u+2215,u+feff,u+fffd}
+
+/* 09/10: a faixa da equipe (#equipe). No celular a foto deitada com `cover`
+   cortava duas pessoas das seis; aqui ela entra inteira em cima, e o texto fica
+   embaixo, no verde. No computador vale o fundo com degrade (estilo inline). */
+@media (max-width:700px){
+  #equipe > img{position:static !important;height:auto !important;aspect-ratio:1400/873}
+  #equipe > span{display:none !important}
+  #equipe > div{padding-top:28px !important;padding-bottom:36px !important}
+  #equipe h2{text-shadow:none !important}
+}
+
+/* ===== AJUSTES DO BRIAN, 28/08 · CSS, e nao edicao do desenho =====
+   Mora aqui embaixo de proposito: quando o Claude Design mandar a proxima
+   versao, este bloco e a UNICA coisa a reaplicar ou apagar. Nada acima foi
+   tocado. */
+
+/* 1. FORA A SECAO 'POR QUE A TERRA BOA' (#diferenciais).
+      Pedido do Brian: o Gilberto quer simples, e ela custava 1599px de rolagem
+      no celular. O link do menu sai junto -- ancora que nao leva a lugar nenhum
+      e defeito, nao sobra. */
+/* (a regra que escondia #diferenciais saiu em 28/08: o socio aprovou o
+   site e pediu a secao de volta.) */
+
+/* 2. A FAIXA CINZA NO TOPO DO CELULAR.
+      🔴 Nao era bug de codigo: era a foto errada pro formato. A
+      'arte-fachada.webp' e 2000x1000 (2:1) e o espaco no celular e 390x822
+      (0,47:1). Com 'object-fit:cover' a escala e ditada pela ALTURA, entao a
+      foto inteira aparece -- ceu incluido -- e o veu escuro por cima transforma
+      o ceu naquela faixa.
+O Brian mandou em 28/08 uma foto 4:5 da fachada (1856x2304). Em vez de
+      forcar zoom no CSS -- que borra --, o ceu e o asfalto sairam do PROPRIO
+      ARQUIVO: corte de 34,5% em cima (onde o ceu acaba e a placa comeca) e 12% embaixo
+      (asfalto). Sobra placa, tijolo, vitrine e carrinhos: 1600x1063 (1,51:1)
+      e 158 kB, dentro do teto de 200 kB da casa, e entra com `cover` simples.
+      Cortar no ARQUIVO em vez de dar zoom no CSS mantem a foto nitida.
+
+      🔴 O 23% do eixo X centraliza o LETREIRO, e nao a foto. Medido: com
+      `cover`, a janela de 390px mostra so 31,5% da largura da foto, e o
+      letreiro "Terra boa" ocupa 45%. Ele NAO cabe inteiro em nenhuma
+      posicao -- centrado em 50% aparecia so a ponta ("boa3"). Pra caber
+      inteiro seria preciso ou trazer o ceu de volta, ou encurtar o topo
+      abaixo da altura que o texto ocupa. Centralizar no nome e o melhor
+      que a geometria permite com esta foto. */
+@media (max-width: 899px) {
+  #topo-secao > img { display: none !important; }
+  /* !important em todas: o #topo-secao traz `background` EM ESTILO
+     EMBUTIDO, e atalho embutido apaga o background-image da folha. */
+  #topo-secao {
+    background-color: #16331d !important;
+    background-image: url(/assets/fotos/arte-fachada-45.webp) !important;
+    background-size: cover !important;
+    background-position: 23% 50% !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+
+/* 4. O BOTAO FLUTUANTE DO WHATSAPP JA NASCE VISIVEL, no topo tambem.
+      O desenho fazia ele deslizar de baixo so depois da primeira rolagem
+      (opacity:0 e 90px deslocado, liberados por html[data-rolou="1"]).
+      Quem abre o site e nao rola -- que num funil de WhatsApp e justamente
+      quem a gente quer -- nunca via o botao. Pedido do Brian em 28/08. */
+[data-flutuante] { transform: none !important; opacity: 1 !important; }
+
+
+/* 5. O PAINEL DO VETERINARIO FICA LISO.
+      Ele tinha a 'fundo-balcao.webp' de fundo com um veu verde de 82% a 90%
+      por cima, entao a foto nao aparecia: sobrava um fantasma por baixo do
+      texto. O socio estranhou, e no index do Gilberto (que foi a referencia
+      que ele deu) esse painel e chapado. Fica chapado aqui tambem.
+      A foto continua no disco: pra trazer de volta, apaga esta regra. */
+img[data-fundo][src*="fundo-balcao"] { display: none !important; }
+/*    ⚠️ E O PAINEL PRECISA DA COR SOLIDA POR BAIXO. Medido depois de esconder
+      a foto: o veu (rgba(15,38,26,.9)) passou a compor sobre o creme da secao e
+      o painel virou rgb(47,67,55), um verde lavado, em vez do #173D2B do
+      desenho. A foto nao era so enfeite: ela era o que segurava o escuro. */
+[data-painel*="173D2B"] { background: #173D2B !important; }
+
+</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terra Boa Agropecuária | Anicuns, Goiás</title>
+<meta name="description" content="Agropecuária e pet shop em Anicuns há 35 anos. Pecuária, agricultura, pet, jardinagem e piscinas. Veterinário na loja e pedido pelo WhatsApp.">
+<link rel="icon" href="/assets/marca/icone.png" type="image/png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Terra Boa Agropecuária · Anicuns, Goiás">
+<meta property="og:description" content="Tudo para o campo, seu pet e sua casa. Veterinário na loja e entrega em Anicuns e região.">
+<meta property="og:image" content="https://terraboagro.com.br/assets/marca/og-terraboa.jpg">
+<script src="/loja-config.js"></script>
+<style>
+  body { margin:0; background:#fff; color:#17201B; font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  a { color:#24512F; text-decoration:none; }
+  a:hover { color:#68482A; }
+  input, select, textarea, button { font:inherit; }
+  ::selection { background:#93C24A; color:#12210F; }
+
+  /* um gesto só para tudo que se toca: sobe, ganha sombra, a borda escurece */
+  [data-cartao] { transition: transform 200ms cubic-bezier(.3,.9,.3,1), box-shadow 260ms cubic-bezier(.3,.9,.3,1), border-color 160ms ease; }
+  @media (hover: hover) {
+    [data-cartao]:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(19,45,32,.16); border-color: #24512F; }
+    [data-cartao]:hover [data-seta] { transform: translateX(5px); }
+  }
+  [data-cartao]:active { transform: translateY(-2px); }
+  [data-seta] { transition: transform 200ms cubic-bezier(.3,.9,.3,1); display:inline-block; }
+
+  /* o botão preenche da esquerda para a direita, em 180ms */
+  [data-botao] { position:relative; overflow:hidden; isolation:isolate;
+    transition: color 160ms ease, transform 180ms cubic-bezier(.3,.9,.3,1), box-shadow 240ms cubic-bezier(.3,.9,.3,1), border-color 140ms ease; }
+  [data-botao] > * { position:relative; z-index:1; }
+  [data-botao]::before { content:''; position:absolute; inset:0; z-index:-1;
+    background: var(--tb-preenche, #93C24A);
+    transform: scaleX(0); transform-origin:left center;
+    transition: transform 180ms cubic-bezier(.3,.9,.3,1); }
+  @media (hover: hover) {
+    [data-botao]:hover::before { transform: scaleX(1); }
+    [data-botao]:hover { color: var(--tb-sobre, #12210F) !important; transform: translateY(-2px); box-shadow: 0 12px 26px rgba(19,45,32,.18); }
+    [data-botao]:hover [data-seta] { transform: translateX(5px); }
+  }
+  [data-botao]:active::before { transform: scaleX(1); }
+  [data-botao]:active { color: var(--tb-sobre, #12210F) !important; transform: translateY(0); }
+
+  /* entrada em cascata, uma vez, sem sequestrar rolagem */
+  [data-sobe] { opacity:0; transform: translate3d(0,18px,0); }
+  [data-sobe].vis { opacity:1; transform:none; transition: opacity 500ms cubic-bezier(.2,.7,.3,1), transform 560ms cubic-bezier(.2,.7,.3,1); }
+
+  /* a manchete emerge por dentro de uma máscara, em vez de só aparecer */
+  [data-mascara] { clip-path: inset(0 0 102% 0); transform: translate3d(0,26px,0); opacity:1; }
+  [data-mascara].vis { clip-path: inset(0 0 -6% 0); transform:none;
+    transition: clip-path 880ms cubic-bezier(.2,.75,.28,1), transform 880ms cubic-bezier(.2,.75,.28,1); }
+
+  /* a foto do topo respira: um zoom lento e contínuo, sem trocar de imagem */
+  @keyframes tbRespira { from { transform: scale(1.04) } to { transform: scale(1.14) } }
+  [data-hero-img] { animation: tbRespira 26s ease-in-out infinite alternate; will-change: transform; }
+  /* o pai contém a respiração: sem isso a foto cresce além da largura da tela */
+  #topo-secao { contain: paint; }
+
+  /* barra de leitura no topo absoluto */
+  [data-leitura] { position:fixed; top:0; left:0; right:0; height:3px; z-index:70;
+    background:#93C24A; transform: scaleX(0); transform-origin:left center; }
+
+  /* cabeçalho encolhe quando a leitura começa */
+  [data-barra-nav] { transition: height 240ms cubic-bezier(.3,.9,.3,1); }
+  [data-header] { transition: box-shadow 240ms ease; }
+  html[data-rolou="1"] [data-barra-nav] { height:62px; }
+  html[data-rolou="1"] [data-header] { box-shadow: 0 6px 24px rgba(19,45,32,.08); }
+  html[data-rolou="1"] [data-header] img { height:36px; }
+  [data-header] img { transition: height 240ms cubic-bezier(.3,.9,.3,1); }
+
+  /* profundidade: o fundo anda mais devagar que o conteúdo */
+  [data-fundo] { will-change: transform; max-width: 100%; }
+  /* o pai do fundo contém a sangria da profundidade */
+  [data-fundo] { position:absolute; }
+
+  /* a etiqueta do cartão desliza para dentro */
+  [data-etiqueta] { opacity:0; transform: translate3d(-10px,0,0); }
+  .vis [data-etiqueta], [data-sobe].vis [data-etiqueta] { opacity:1; transform:none;
+    transition: opacity 420ms ease 160ms, transform 480ms cubic-bezier(.2,.75,.28,1) 160ms; }
+
+  /* as estrelas acendem uma atrás da outra */
+  [data-estrela] { opacity:.18; }
+  [data-sobe].vis [data-estrela] { opacity:1; transition: opacity 260ms ease; }
+  [data-sobe].vis [data-estrela]:nth-child(2) { transition-delay:80ms }
+  [data-sobe].vis [data-estrela]:nth-child(3) { transition-delay:160ms }
+  [data-sobe].vis [data-estrela]:nth-child(4) { transition-delay:240ms }
+  [data-sobe].vis [data-estrela]:nth-child(5) { transition-delay:320ms }
+
+  /* costura: uma régua fina que cresce quando a seção entra */
+  [data-costura] { height:1px; background:rgba(20,26,15,.14); transform:scaleX(0); transform-origin:left center; }
+  [data-costura].vis { transform:scaleX(1); transition: transform 900ms cubic-bezier(.2,.75,.28,1); }
+
+  /* o ponto do horário é o único com vida própria: ele informa estado real */
+  @keyframes tbPulso { 0%,100% { box-shadow:0 0 0 0 rgba(147,194,74,.55) } 70% { box-shadow:0 0 0 8px rgba(147,194,74,0) } }
+  [data-pulso] { animation: tbPulso 3s ease-out infinite; }
+
+  /* o campo acende no foco: a pessoa sabe onde está */
+  [data-campo] { transition: border-color 160ms ease, background-color 160ms ease, transform 160ms cubic-bezier(.3,.9,.3,1); }
+  [data-campo]:focus { border-color:#93C24A !important; background:rgba(255,255,255,.16) !important; transform:translateY(-1px); }
+
+  /* o botão flutuante entra deslizando de baixo */
+  [data-flutuante] { transform: translate3d(0,90px,0); opacity:0;
+    transition: transform 460ms cubic-bezier(.2,.75,.28,1), opacity 320ms ease, background-color 160ms ease, box-shadow 200ms ease; }
+  html[data-rolou="1"] [data-flutuante] { transform:none; opacity:1; }
+  @media (hover: hover) {
+    [data-flutuante]:hover { background:#16913F !important; box-shadow: 0 18px 40px rgba(0,0,0,.28) !important; }
+  }
+
+  @media (min-width: 1100px) { [data-arte-grande] { max-width: 100%; width: auto; } }
+  /* ===== CELULAR =====
+     abaixo de 980px o menu vira hambúrguer (já no script).
+     aqui fica o que é só de tela estreita. */
+  @media (max-width: 900px) {
+    /* o topo perde altura fixa: quem manda é o conteúdo */
+    #topo-secao { min-height: auto !important; padding-top: clamp(40px,7vh,72px) !important; padding-bottom: clamp(36px,6vh,64px) !important; }
+    /* a manchete escala pela largura da tela, sem estrangular */
+    #topo-secao h1 { font-size: clamp(32px,8.6vw,46px) !important; max-width: none !important; margin: 14px 0 !important; }
+    /* as duas ações viram largura cheia, uma embaixo da outra */
+    [data-cta-topo] { flex: 1 1 100% !important; justify-content: center !important; }
+    /* as pílulas de credencial ficam em coluna, para o texto não quebrar */
+    [data-credenciais] { flex-direction: column !important; align-items: flex-start !important; }
+    /* a barra de horário do topo absoluto centra */
+    [data-topbar] { justify-content: center !important; text-align: center !important; }
+    [data-topbar] > span:first-child { display: none !important; }
+    /* seções respiram menos, para a rolagem não virar maratona */
+    section { padding-top: clamp(40px,7vw,56px) !important; padding-bottom: clamp(40px,7vw,56px) !important; }
+    /* galeria em duas colunas, que é o que caber sem virar miniatura */
+    [data-galeria] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; gap: 8px !important; }
+    /* a barra fixa ocupa a largura e a página reserva o pé */
+    [data-flutuante] { left: 12px !important; right: 12px !important; bottom: 12px !important; justify-content: center !important; }
+    body { padding-bottom: 84px !important; }
+  }
+  @media (max-width: 620px) {
+    /* uma coluna em tudo: cartão, oferta, diferencial, avaliação */
+    [data-grade-1col] { grid-template-columns: 1fr !important; }
+    /* a foto do cartão fica mais baixa, senão come a tela toda */
+    [data-foto-cartao] { aspect-ratio: 16/10 !important; }
+    /* o painel duplo empilha com respiro menor */
+    [data-painel] { padding: clamp(22px,5vw,28px) !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-cartao], [data-botao], [data-botao]::before, [data-seta] { transition:none !important; }
+    [data-sobe], [data-mascara] { opacity:1 !important; transform:none !important; clip-path:none !important; }
+    [data-hero-img] { animation:none !important; }
+    [data-etiqueta], [data-estrela] { opacity:1 !important; transform:none !important; }
+    [data-flutuante] { transform:none !important; opacity:1 !important; }
+    [data-costura] { transform:scaleX(1) !important; }
+    [data-pulso] { animation:none !important; }
+    [data-leitura] { display:none !important; }
+    [data-fundo] { transform:none !important; }
+  }
+</style>
+</helmet>
+
+<div style="position:relative;overflow:clip">
+
+<div data-leitura></div>
+
+<div style="background:#173D2B;color:#EEF5ED">
+  <div data-topbar style="max-width:1180px;margin:0 auto;padding:10px clamp(16px,4vw,24px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px;font:400 16px/1.4 'Hanken Grotesk',sans-serif">
+    <span>35 anos em Anicuns, desde 1991</span>
+    <span style="display:inline-flex;align-items:center;gap:9px;color:#DCEBC2"><span data-pulso style="width:8px;height:8px;border-radius:50%;background:{{ corStatus }};display:block;flex:0 0 auto"></span><span data-horario>{{ horario }}</span></span>
+  </div>
+</div>
+
+<header data-header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #DFE4DC">
+  <div style="max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,24px);height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px" data-barra-nav>
+    <a href="#inicio" style="display:flex;align-items:center;gap:11px">
+      <img src="/assets/marca/terraboa-logo.webp" alt="Terra Boa Agropecuária" style="height:44px;width:auto;display:block">
+    </a>
+    <nav style="display:flex;align-items:center;gap:clamp(14px,1.8vw,26px)">
+      <a data-nav href="#categorias" style="display:none;align-items:center;min-height:48px;font:600 16px/1 'Hanken Grotesk',sans-serif;color:#17201B">Produtos</a>
+      <a data-nav href="#ofertas" style="display:none;align-items:center;min-height:48px;font:600 16px/1 'Hanken Grotesk',sans-serif;color:#17201B">Ofertas</a>
+      <a data-nav href="#loja" style="display:none;align-items:center;min-height:48px;font:600 16px/1 'Hanken Grotesk',sans-serif;color:#17201B">A loja</a>
+      <a data-nav href="#diferenciais" style="display:none;align-items:center;min-height:48px;font:600 16px/1 'Hanken Grotesk',sans-serif;color:#17201B">Diferenciais</a>
+      <a data-nav href="#identidade" style="display:none;align-items:center;min-height:48px;font:600 16px/1 'Hanken Grotesk',sans-serif;color:#17201B">35 anos</a>
+      <a data-nav href="#contato" style="display:none;align-items:center;min-height:48px;font:600 16px/1 'Hanken Grotesk',sans-serif;color:#17201B">Contato</a>
+      <a data-nav href="{{ waTopo }}" target="_blank" rel="noopener" data-botao style="--tb-preenche:#93C24A;--tb-sobre:#12210F;display:none;align-items:center;gap:9px;background:#173D2B;color:#fff;min-height:48px;padding:0 20px;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif">WhatsApp</a>
+      <button onClick="{{ toggleMenu }}" data-burger aria-label="Abrir menu" style="width:48px;height:48px;border:1px solid #DFE4DC;background:#fff;border-radius:12px;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;display:none">
+        <span style="width:18px;height:2px;background:#17201B;display:block"></span>
+        <span style="width:18px;height:2px;background:#17201B;display:block"></span>
+        <span style="width:18px;height:2px;background:#93C24A;display:block"></span>
+      </button>
+    </nav>
+  </div>
+  <sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}">
+    <div style="border-top:1px solid #DFE4DC;background:#fff;padding:6px clamp(16px,4vw,24px) 18px;display:grid">
+      <a href="#categorias" onClick="{{ fecharMenu }}" style="display:flex;align-items:center;min-height:56px;font:600 18px/1.3 'Hanken Grotesk',sans-serif;color:#17201B;border-bottom:1px solid #EFF2ED">Produtos</a>
+      <a href="#ofertas" onClick="{{ fecharMenu }}" style="display:flex;align-items:center;min-height:56px;font:600 18px/1.3 'Hanken Grotesk',sans-serif;color:#17201B;border-bottom:1px solid #EFF2ED">Ofertas</a>
+      <a href="#loja" onClick="{{ fecharMenu }}" style="display:flex;align-items:center;min-height:56px;font:600 18px/1.3 'Hanken Grotesk',sans-serif;color:#17201B;border-bottom:1px solid #EFF2ED">A loja</a>
+      <a href="#diferenciais" onClick="{{ fecharMenu }}" style="display:flex;align-items:center;min-height:56px;font:600 18px/1.3 'Hanken Grotesk',sans-serif;color:#17201B;border-bottom:1px solid #EFF2ED">Diferenciais</a>
+      <a href="#identidade" onClick="{{ fecharMenu }}" style="display:flex;align-items:center;min-height:56px;font:600 18px/1.3 'Hanken Grotesk',sans-serif;color:#17201B;border-bottom:1px solid #EFF2ED">35 anos</a>
+      <a href="#contato" onClick="{{ fecharMenu }}" style="display:flex;align-items:center;min-height:56px;font:600 18px/1.3 'Hanken Grotesk',sans-serif;color:#17201B">Contato</a>
+    </div>
+  </sc-if>
+</header>
+
+<main id="inicio">
+
+<section id="topo-secao" style="position:relative;overflow:hidden;background:#E9E1D0">
+  <img data-hero-img src="/assets/fotos/arte-fachada.webp" alt="Fachada da Terra Boa Agropecuária vista da rua, com carrinhos de mão na calçada" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,22,12,.7) 0%,rgba(12,22,12,.76) 38%,rgba(12,22,12,.78) 62%,rgba(12,22,12,.9) 100%)"></div>
+  <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;min-height:min(78vh,760px);display:flex;flex-direction:column;justify-content:center;padding:clamp(64px,11vh,130px) clamp(16px,4vw,24px)">
+    <span data-sobe style="display:inline-flex;align-self:flex-start;align-items:center;gap:8px;background:#fff;border:1px solid #DFE4DC;color:#17201B;padding:9px 14px;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif">
+      <span style="width:8px;height:8px;border-radius:50%;background:#4E7A2E;display:block"></span>Anicuns, Goiás, desde 1991
+    </span>
+    <h1 data-sobe data-mascara style="margin:18px 0;font:800 clamp(40px,6.6vw,80px)/.98 'Hanken Grotesk',sans-serif;letter-spacing:-.05em;color:#fff;max-width:15ch;text-shadow:0 2px 24px rgba(0,0,0,.3)">Tudo para o <span style="color:#A9CE63">campo</span>, seu pet e sua casa.</h1>
+    <p data-sobe style="margin:0;font:400 clamp(18px,2vw,21px)/1.6 'Hanken Grotesk',sans-serif;color:#E4EADD;max-width:46ch;text-wrap:pretty">Veterinário na loja, sem cobrar consulta. Peça no WhatsApp e receba na cidade ou na fazenda.</p>
+    <div data-sobe style="display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0">
+      <a href="{{ waPedido }}" target="_blank" rel="noopener" data-botao data-cta-topo style="--tb-preenche:#93C24A;--tb-sobre:#12210F;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#173D2B;color:#fff;min-height:56px;padding:0 24px;border-radius:999px;font:700 17px/1 'Hanken Grotesk',sans-serif">
+        Pedir no WhatsApp<span data-seta><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M2.5 8h10M9 4.5 12.5 8 9 11.5"/></svg></span>
+      </a>
+      <a href="#categorias" data-botao data-cta-topo style="--tb-preenche:#fff;--tb-sobre:#12210F;display:inline-flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#17201B;min-height:56px;padding:0 24px;border-radius:999px;border:1px solid #DFE4DC;font:700 17px/1 'Hanken Grotesk',sans-serif">Ver produtos</a>
+    </div>
+    <div data-sobe data-credenciais style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px">
+        <span style="display:inline-flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:1px solid #DFE4DC;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif;color:#17201B"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M6.4 1.6h3.2v4.8h4.8v3.2H9.6v4.8H6.4V9.6H1.6V6.4h4.8z" fill="#4E7A2E"/></svg>Veterinário na loja</span>
+        <span style="display:inline-flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:1px solid #DFE4DC;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif;color:#17201B"><svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M1 3h9v7H1z" fill="#4E7A2E"/><path d="M11 5.5h3.6L18 8.6V10h-7z" fill="#4E7A2E"/><circle cx="5" cy="12" r="2" fill="#4E7A2E"/><circle cx="14.5" cy="12" r="2" fill="#4E7A2E"/></svg>Entrega em Anicuns e região</span>
+        <span style="display:inline-flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:1px solid #DFE4DC;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif;color:#17201B"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" style="display:block;flex:0 0 auto"><circle cx="8" cy="6.4" r="5.2" fill="#4E7A2E"/><path d="M4.6 10.4 3.4 15l4.6-2 4.6 2-1.2-4.6z" fill="#4E7A2E"/></svg>35 anos fazendo história</span>
+    </div>
+  </div>
+</section>
+
+<section id="categorias" style="padding:clamp(56px,7.4vw,96px) clamp(16px,4vw,24px)">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 30px;margin-bottom:34px">
+      <div>
+        <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#24583F;letter-spacing:.14em;text-transform:uppercase">O que você procura?</p>
+        <h2 data-sobe style="margin:10px 0 0;font:800 clamp(30px,4vw,48px)/1.04 'Hanken Grotesk',sans-serif;letter-spacing:-.045em;color:#17201B">Escolha sua área.</h2>
+      </div>
+      <p data-sobe style="margin:0;max-width:44ch;font:400 17px/1.6 'Hanken Grotesk',sans-serif;color:#4F5A52;text-wrap:pretty">Toque na área e fale com a loja no WhatsApp.</p>
+    </div>
+
+    <div data-grade-1col style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px">
+      <sc-for list="{{ areas }}" as="a" hint-placeholder-count="4">
+        <a href="{{ a.wa }}" target="_blank" rel="noopener" data-sobe data-cartao style="display:flex;flex-direction:column;background:#fff;border:1px solid #DFE4DC;border-radius:24px;overflow:hidden;box-shadow:0 12px 34px rgba(19,45,32,.08)">
+          <span style="display:block;position:relative;aspect-ratio:5/4;background:#E9E1D0;overflow:hidden" data-foto-cartao>
+            <img src="{{ a.foto }}" alt="{{ a.alt }}" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy">
+            <span data-etiqueta style="position:absolute;left:14px;top:14px;background:rgba(23,61,43,.94);color:#fff;padding:9px 15px;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif">{{ a.nome }}</span>
+          </span>
+          <span style="display:flex;flex-direction:column;flex:1;padding:20px">
+            <span style="display:block;font:400 16px/1.6 'Hanken Grotesk',sans-serif;color:#4F5A52;flex:1;text-wrap:pretty">{{ a.txt }}</span>
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #DFE4DC;margin-top:18px;padding-top:16px;font:700 16px/1.3 'Hanken Grotesk',sans-serif;color:#24512F">
+              Perguntar no WhatsApp<span data-seta><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M2.5 8h10M9 4.5 12.5 8 9 11.5"/></svg></span>
+            </span>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+    <div data-sobe data-costura style="margin-top:clamp(34px,4.4vw,60px)"></div>
+  </div>
+</section>
+
+<sc-if value="{{ temOfertas }}" hint-placeholder-val="{{ true }}">
+  <section id="ofertas" style="background:#F7F4EC;padding:clamp(52px,7vw,88px) clamp(16px,4vw,24px)">
+    <div style="max-width:1180px;margin:0 auto">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 30px;margin-bottom:34px">
+        <div>
+          <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#24583F;letter-spacing:.14em;text-transform:uppercase">Toda semana muda</p>
+          <h2 data-sobe style="margin:10px 0 0;font:800 clamp(30px,4vw,48px)/1.04 'Hanken Grotesk',sans-serif;letter-spacing:-.045em;color:#17201B">Ofertas da Semana.</h2>
+        </div>
+        <p data-sobe style="margin:0;max-width:44ch;font:400 17px/1.6 'Hanken Grotesk',sans-serif;color:#4F5A52">Atualizada em {{ atualizado }}. O que não tem valor na tela, a gente passa no WhatsApp.</p>
+      </div>
+
+      <!-- 09/10: auto-fill, e nao auto-fit: com duas ofertas na semana, o
+           auto-fit esticava cada cartao a 580px e a foto virava um outdoor. -->
+      <div data-grade-1col style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px">
+        <sc-for list="{{ ofertas }}" as="o" hint-placeholder-count="4">
+          <div data-sobe data-cartao style="display:flex;flex-direction:column;background:#fff;border:1px solid #DFE4DC;border-radius:20px;padding:18px;box-shadow:0 10px 35px rgba(19,45,32,.06)">
+            <span style="display:{{ o.mostraFoto }};aspect-ratio:4/3;background:#E9E1D0;border-radius:12px;overflow:hidden;margin-bottom:14px"><img src="{{ o.foto }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></span>
+            <span style="display:block;font:700 16px/1.3 'Hanken Grotesk',sans-serif;color:#24583F">{{ o.frente }}</span>
+            <span style="display:block;font:700 clamp(19px,2vw,22px)/1.25 'Hanken Grotesk',sans-serif;color:#17201B;margin-top:10px;letter-spacing:-.02em;text-wrap:pretty">{{ o.titulo }}</span>
+            <span style="display:block;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#4F5A52;margin-top:6px">{{ o.tamanho }}</span>
+            <span style="display:block;font:800 clamp(22px,2.4vw,26px)/1.15 'Hanken Grotesk',sans-serif;color:#173D2B;margin:16px 0 0;letter-spacing:-.03em">{{ o.preco }}</span>
+            <span style="display:block;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#4F5A52;margin-top:6px;flex:1">{{ o.nota }}</span>
+            <a href="{{ o.wa }}" target="_blank" rel="noopener" data-botao style="--tb-preenche:#93C24A;--tb-sobre:#12210F;display:flex;align-items:center;justify-content:center;gap:9px;background:#173D2B;color:#fff;min-height:48px;padding:0 18px;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif;margin-top:18px">Consultar no WhatsApp</a>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</sc-if>
+
+<section id="diferenciais" style="background:#FBF9F4;padding:clamp(56px,7.4vw,96px) clamp(16px,4vw,24px)">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 30px;margin-bottom:34px">
+      <div>
+        <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#24583F;letter-spacing:.14em;text-transform:uppercase">Por que a Terra Boa</p>
+        <h2 data-sobe style="margin:10px 0 0;font:800 clamp(30px,4vw,48px)/1.04 'Hanken Grotesk',sans-serif;letter-spacing:-.045em;color:#17201B">Compra fácil. Atendimento de verdade.</h2>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+      <sc-for list="{{ diferenciais }}" as="d" hint-placeholder-count="4">
+        <div data-sobe data-cartao style="background:#fff;border:1px solid #DFE4DC;border-radius:18px;overflow:hidden">
+          <span style="display:block;aspect-ratio:16/10;background:#E9E1D0;overflow:hidden">
+            <img src="{{ d.foto }}" alt="{{ d.alt }}" style="width:100%;height:100%;object-fit:cover;display:block">
+          </span>
+          <span style="display:block;padding:20px">
+            <span style="display:block;font:700 18px/1.3 'Hanken Grotesk',sans-serif;color:#17201B">{{ d.titulo }}</span>
+            <span style="display:block;font:400 16px/1.6 'Hanken Grotesk',sans-serif;color:#4F5A52;margin-top:6px;text-wrap:pretty">{{ d.txt }}</span>
+          </span>
+        </div>
+      </sc-for>
+    </div>
+    <div data-sobe data-costura style="margin-top:clamp(34px,4.4vw,60px)"></div>
+  </div>
+</section>
+
+
+
+<!-- 09/10: a faixa da equipe. O Matheus mandou a foto de todos os funcionários
+     (áudio de 28/08, 16h42, "o atendimento") e o Brian pediu que ela tivesse
+     destaque de verdade, não só o cartão pequeno. Três encaixes foram
+     fotografados (telas/mapa-09-10/mock-equipe/); este ganhou. -->
+<section id="equipe" style="position:relative;overflow:hidden;background:#173D2B;color:#fff">
+  <img src="/assets/fotos/g-cafe-equipe.webp" alt="A equipe da Terra Boa no cantinho do café da loja" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block" loading="lazy">
+  <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,22,12,.08) 0%,rgba(12,22,12,.18) 45%,rgba(12,22,12,.9) 100%);display:block"></span>
+  <div style="position:relative;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(260px,44vh,440px) clamp(16px,4vw,24px) clamp(36px,5vw,56px)">
+    <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#B9D87D;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 12px rgba(0,0,0,.6)">Quem te atende</p>
+    <h2 data-sobe style="margin:10px 0 0;font:800 clamp(30px,4vw,48px)/1.04 'Hanken Grotesk',sans-serif;letter-spacing:-.045em;color:#fff;max-width:18ch;text-shadow:0 2px 24px rgba(0,0,0,.35)">A gente pergunta antes de indicar.</h2>
+    <p data-sobe style="margin:14px 0 0;max-width:46ch;font:400 clamp(17px,2vw,19px)/1.6 'Hanken Grotesk',sans-serif;color:#E4EADD;text-wrap:pretty">Chega, conta o que está acontecendo, toma um café. Quem atende conhece o produto e o bicho.</p>
+  </div>
+</section>
+
+<section style="background:#F7F4EC;padding:clamp(52px,7vw,88px) clamp(16px,4vw,24px)">
+  <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+    <div data-sobe style="position:relative;overflow:hidden;color:#fff;border-radius:28px;padding:clamp(26px,3vw,34px)" data-painel="1;background:#173D2B">
+      <img data-fundo src="/assets/fotos/fundo-balcao.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy">
+      <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,38,26,.9) 0%,rgba(15,38,26,.82) 100%);display:block"></span>
+      <span style="position:relative;display:flex;flex-wrap:wrap;gap:28px 24px;align-items:center">
+      <span style="flex:1 1 240px;display:block">
+      <p style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#B9D87D;letter-spacing:.14em;text-transform:uppercase">Atendimento veterinário</p>
+      <p style="margin:12px 0 22px;font:800 clamp(24px,2.8vw,32px)/1.15 'Hanken Grotesk',sans-serif;letter-spacing:-.035em">Seu animal precisa de orientação?</p>
+      <div style="display:grid;gap:11px;margin-bottom:24px">
+        <span style="display:flex;gap:10px;align-items:center;font:400 17px/1.5 'Hanken Grotesk',sans-serif;color:#fff"><span style="width:26px;height:26px;border-radius:50%;background:#93C24A;color:#102014;display:grid;place-items:center;font:700 16px/1 'Hanken Grotesk',sans-serif;flex:0 0 auto">✓</span>Cães, gatos e bovinos</span>
+        <span style="display:flex;gap:10px;align-items:center;font:400 17px/1.5 'Hanken Grotesk',sans-serif;color:#fff"><span style="width:26px;height:26px;border-radius:50%;background:#93C24A;color:#102014;display:grid;place-items:center;font:700 16px/1 'Hanken Grotesk',sans-serif;flex:0 0 auto">✓</span>Consulta sem custo na loja</span>
+        <span style="display:flex;gap:10px;align-items:center;font:400 17px/1.5 'Hanken Grotesk',sans-serif;color:#fff"><span style="width:26px;height:26px;border-radius:50%;background:#93C24A;color:#102014;display:grid;place-items:center;font:700 16px/1 'Hanken Grotesk',sans-serif;flex:0 0 auto">✓</span>Vacina aplicada com orientação</span>
+      </div>
+      <a href="{{ waVacina }}" target="_blank" rel="noopener" data-botao style="--tb-preenche:#fff;--tb-sobre:#12210F;display:inline-flex;align-items:center;gap:10px;background:#93C24A;color:#102014;min-height:52px;padding:0 22px;border-radius:999px;font:700 17px/1 'Hanken Grotesk',sans-serif">
+        Mandar no WhatsApp<span data-seta><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M2.5 8h10M9 4.5 12.5 8 9 11.5"/></svg></span>
+      </a>
+      </span>
+      <!-- 09/10: a carteirinha de exemplo que o Matheus pediu em áudio de 28/08
+           ("pode colocar igual tá lá o cartãozinho de vacina"). É o mesmo desenho
+           da home nova. Nome e datas são fictícios e a própria carteirinha diz isso. -->
+      <span data-carteirinha-exemplo style="flex:1 1 236px;max-width:300px;display:block;position:relative;background:#F2EBD8;color:#2B2A20;border-radius:4px;padding:16px 18px 18px;box-shadow:0 30px 70px rgba(0,0,0,.45);transform:rotate(-1.6deg)">
+        <span style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:1.5px solid rgba(43,42,32,.35);padding-bottom:10px">
+          <span style="display:block">
+            <span style="display:block;font:500 16px/1.3 'Hanken Grotesk',sans-serif;color:#453F2E">carteira de vacinação</span>
+            <span style="display:block;margin-top:4px;font:400 16px/1.3 'Hanken Grotesk',sans-serif;color:#463F30">cão e gato · controle do tutor</span>
+          </span>
+          <span style="flex:0 0 auto;width:30px;height:40px;border:1.5px solid rgba(43,42,32,.3);border-radius:2px;background:repeating-linear-gradient(135deg,rgba(43,42,32,.07) 0 4px,transparent 4px 8px)"></span>
+        </span>
+        <span style="display:grid;grid-template-columns:auto 1fr;gap:8px 12px;margin-top:12px;align-items:baseline">
+          <span style="font:400 16px/1.2 'Hanken Grotesk',sans-serif;color:#463F30">animal</span>
+          <span style="font:400 24px/1 Caveat,'Bradley Hand',cursive;color:#3B3A2C;border-bottom:1px dotted rgba(43,42,32,.35)">Pingo</span>
+          <span style="font:400 16px/1.2 'Hanken Grotesk',sans-serif;color:#463F30">tutor</span>
+          <span style="font:400 24px/1 Caveat,'Bradley Hand',cursive;color:#3B3A2C;border-bottom:1px dotted rgba(43,42,32,.35)">família da rua de cima</span>
+        </span>
+        <span style="display:grid;gap:10px;margin-top:14px;border-top:1.5px solid rgba(43,42,32,.35);padding-top:12px">
+          <span style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:400 16px/1.2 'Hanken Grotesk',sans-serif;color:#453F2E">V10 (múltipla)</span><span style="font:400 23px/1 Caveat,'Bradley Hand',cursive;color:#3B3A2C;white-space:nowrap">14/03/2026</span></span>
+          <span style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:400 16px/1.2 'Hanken Grotesk',sans-serif;color:#453F2E">antirrábica</span><span style="font:400 23px/1 Caveat,'Bradley Hand',cursive;color:#3B3A2C;white-space:nowrap">02/05/2026</span></span>
+          <span style="display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px dotted rgba(43,42,32,.3);padding-top:10px"><span style="font:400 16px/1.2 'Hanken Grotesk',sans-serif;color:#453F2E">próxima dose</span><span style="font:400 23px/1 Caveat,'Bradley Hand',cursive;color:#24512F;white-space:nowrap">14/03/2027</span></span>
+        </span>
+        <span style="display:block;margin-top:14px;border-top:1px dotted rgba(43,42,32,.3);padding-top:10px;font:400 16px/1.3 'Hanken Grotesk',sans-serif;color:#5A5440">exemplo ilustrativo: nome e datas são fictícios</span>
+      </span>
+      </span>
+    </div>
+
+    <!-- 09/10: sem foto de fundo. A do café lavada em 90% de creme parecia
+         sujeira (o Brian: "esse fundo de foto aqui tá horrível"). Três saídas
+         fotografadas em telas/mapa-09-10/mock-painel/; a lisa ganhou. -->
+    <div data-sobe style="position:relative;overflow:hidden;color:#17201B;background:#E9E1D0;border-radius:28px;padding:clamp(26px,3vw,34px)" data-painel="1;background:#E9E1D0">
+      <span style="position:relative;display:block">
+      <p style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#5A3D20;letter-spacing:.14em;text-transform:uppercase">Não sabe o nome?</p>
+      <p style="margin:12px 0 22px;font:800 clamp(24px,2.8vw,32px)/1.15 'Hanken Grotesk',sans-serif;letter-spacing:-.035em">Diga o problema. A gente acha o que resolve.</p>
+      <div style="display:grid;gap:11px;margin-bottom:24px">
+        <span style="display:flex;gap:10px;align-items:center;font:400 17px/1.5 'Hanken Grotesk',sans-serif;color:#3D4636"><span style="width:26px;height:26px;border-radius:50%;background:#93C24A;color:#102014;display:grid;place-items:center;font:700 16px/1 'Hanken Grotesk',sans-serif;flex:0 0 auto">✓</span>Conte o que está acontecendo</span>
+        <span style="display:flex;gap:10px;align-items:center;font:400 17px/1.5 'Hanken Grotesk',sans-serif;color:#3D4636"><span style="width:26px;height:26px;border-radius:50%;background:#93C24A;color:#102014;display:grid;place-items:center;font:700 16px/1 'Hanken Grotesk',sans-serif;flex:0 0 auto">✓</span>Mande uma foto, se precisar</span>
+        <span style="display:flex;gap:10px;align-items:center;font:400 17px/1.5 'Hanken Grotesk',sans-serif;color:#3D4636"><span style="width:26px;height:26px;border-radius:50%;background:#93C24A;color:#102014;display:grid;place-items:center;font:700 16px/1 'Hanken Grotesk',sans-serif;flex:0 0 auto">✓</span>Receba orientação da loja</span>
+      </div>
+      <a href="{{ waResolver }}" target="_blank" rel="noopener" data-botao style="--tb-preenche:#93C24A;--tb-sobre:#12210F;display:inline-flex;align-items:center;gap:10px;background:#173D2B;color:#fff;min-height:52px;padding:0 22px;border-radius:999px;font:700 17px/1 'Hanken Grotesk',sans-serif">
+        Falar com a loja<span data-seta><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M2.5 8h10M9 4.5 12.5 8 9 11.5"/></svg></span>
+      </a>
+      </span>
+    </div>
+  </div>
+</section>
+
+<section id="loja" style="padding:clamp(56px,7.4vw,96px) clamp(16px,4vw,24px)">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 30px;margin-bottom:30px">
+      <div>
+        <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#24583F;letter-spacing:.14em;text-transform:uppercase">Por dentro da loja</p>
+        
+      </div>
+    </div>
+    <div data-galeria style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+      <sc-for list="{{ galeria }}" as="g" hint-placeholder-count="8">
+        <button onClick="{{ g.abrir }}" data-sobe data-cartao style="aspect-ratio:4/3;overflow:hidden;border-radius:16px;background:#E9E1D0;border:1px solid #DFE4DC;padding:0;cursor:zoom-in;display:block;width:100%">
+          <img src="{{ g.foto }}" alt="{{ g.alt }}" style="width:100%;height:100%;object-fit:cover;display:block">
+        </button>
+      </sc-for>
+    </div>
+    <div data-sobe data-costura style="margin-top:clamp(34px,4.4vw,60px)"></div>
+  </div>
+</section>
+
+<section id="identidade" style="background:#F7F4EC;padding:clamp(52px,7vw,88px) clamp(16px,4vw,24px)">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px">
+      <div>
+        <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#24583F;letter-spacing:.14em;text-transform:uppercase">A Terra Boa</p>
+        <h2 data-sobe style="margin:10px 0 0;font:800 clamp(30px,4vw,46px)/1.04 'Hanken Grotesk',sans-serif;letter-spacing:-.045em;color:#17201B">Missão, Visão e Valores.</h2>
+      </div>
+      <p data-sobe style="margin:0;max-width:40ch;font:400 17px/1.6 'Hanken Grotesk',sans-serif;color:#4F5A52">Cultivando confiança. Colhendo resultados.</p>
+    </div>
+
+    <div data-grade-1col style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(28px,4vw,56px);margin-top:clamp(28px,3.6vw,48px);align-items:start">
+      <div style="max-width:380px">
+        <button onClick="{{ abrirArte }}" data-cartao style="display:block;width:100%;padding:0;border:1px solid #DFE4DC;border-radius:14px;overflow:hidden;background:#E9E1D0;cursor:pointer">
+          <img src="/assets/marca/institucional-terraboa.webp" alt="Missão: oferecer produtos, soluções e atendimento de excelência para o agronegócio, pecuária, agricultura, animais de estimação e bem-estar das famílias, com qualidade, responsabilidade e confiança. Visão: ser reconhecida como a agropecuária referência da região. Propósito: levar soluções que fortalecem o campo, cuidam dos animais e melhoram a vida das pessoas. Valores: compromisso com o cliente, ética e honestidade, qualidade, compromisso com o agronegócio, inovação, respeito às pessoas e aos animais, responsabilidade. Atuamos em pecuária, agricultura, nutrição animal, pet shop, jardinagem, piscinas e lazer." style="width:100%;height:auto;display:block" loading="lazy">
+        </button>
+        <button onClick="{{ abrirArte }}" style="display:inline-flex;align-items:center;gap:10px;margin-top:8px;min-height:48px;padding:8px 0;background:transparent;border:0;cursor:pointer;text-align:left;font:700 16px/1.3 'Hanken Grotesk',sans-serif;color:#24512F">
+          Ver a arte por inteiro<span data-seta><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M2.5 8h10M9 4.5 12.5 8 9 11.5"/></svg></span>
+        </button>
+      </div>
+      <div>
+        
+        
+        <div data-sobe style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px">
+          <sc-for list="{{ valores }}" as="v" hint-placeholder-count="7">
+            <span style="display:inline-flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:1px solid #DFE4DC;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif;color:#17201B">
+              <span style="width:7px;height:12px;background:#4E7A2E;border-radius:7px 0 7px 0;transform:rotate(10deg);display:block"></span>{{ v }}
+            </span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    <div data-sobe data-costura style="margin-top:clamp(34px,4.4vw,60px)"></div>
+  </div>
+</section>
+
+<section id="depoimentos" style="background:#FBF9F4;padding:clamp(56px,7.4vw,96px) clamp(16px,4vw,24px)">
+  <div style="max-width:1200px;margin:0 auto;text-align:center">
+    <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#24583F;letter-spacing:.14em;text-transform:uppercase">Quem compra, volta</p>
+    <h2 data-sobe style="margin:10px 0 0;font:800 clamp(30px,4vw,48px)/1.04 'Hanken Grotesk',sans-serif;letter-spacing:-.045em;color:#17201B">Conte como foi.</h2>
+    <p data-sobe style="margin:16px auto 0;max-width:620px;font:400 clamp(18px,2vw,21px)/1.6 'Hanken Grotesk',sans-serif;color:#3F4A42">Se a loja te atendeu bem, manda seu depoimento pra gente. A gente publica aqui.</p>
+    <a href="{{ waDepoimento }}" target="_blank" rel="noopener" data-sobe data-botao style="--tb-preenche:#93C24A;--tb-sobre:#12210F;margin-top:26px;display:inline-flex;align-items:center;gap:9px;background:#173D2B;color:#fff;min-height:56px;padding:0 26px;border-radius:999px;font:700 17px/1 'Hanken Grotesk',sans-serif">Mandar meu depoimento</a>
+  </div>
+</section>
+
+<section id="contato" style="position:relative;overflow:hidden;background:#173D2B;color:#fff;padding:clamp(52px,7vw,88px) clamp(16px,4vw,24px)">
+  <img data-fundo src="/assets/fotos/fundo-tarde.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,38,26,.93) 0%,rgba(15,38,26,.88) 100%)"></div>
+  <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto">
+    <div style="margin-bottom:34px">
+      <p data-sobe style="margin:0;font:800 16px/1.3 'Hanken Grotesk',sans-serif;color:#B9D87D;letter-spacing:.14em;text-transform:uppercase">Fale com a Terra Boa</p>
+      <h2 data-sobe style="margin:10px 0 0;font:800 clamp(30px,4vw,48px)/1.04 'Hanken Grotesk',sans-serif;letter-spacing:-.045em">Precisa de alguma coisa?</h2>
+      <p data-sobe style="margin:14px 0 0;font:400 17px/1.6 'Hanken Grotesk',sans-serif;color:#D5E0D5;max-width:52ch;text-wrap:pretty">Preencha e o botão abre o WhatsApp com a mensagem escrita. Nada fica guardado aqui.</p>
+    </div>
+
+    <div data-grade-1col style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+      <div data-sobe style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:28px">
+        <p style="margin:0;font:800 clamp(22px,2.4vw,27px)/1.2 'Hanken Grotesk',sans-serif;letter-spacing:-.03em">Terra Boa Agropecuária</p>
+        <div style="display:grid;gap:16px;margin-top:20px">
+          <span style="display:block">
+            <span style="display:block;font:700 17px/1.3 'Hanken Grotesk',sans-serif">Endereço</span>
+            <span style="display:block;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#C7D4C8;margin-top:3px">Av. Tocantins, 1.600, Setor Leste, Anicuns, Goiás</span>
+          </span>
+          <span style="display:block">
+            <span style="display:block;font:700 17px/1.3 'Hanken Grotesk',sans-serif">Horário</span>
+            <span style="display:block;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#C7D4C8;margin-top:3px">Segunda a sexta, 7h às 18h. Sábado, 7h às 13h.</span>
+          </span>
+          <span style="display:block">
+            <span style="display:block;font:700 17px/1.3 'Hanken Grotesk',sans-serif">Entregas</span>
+            <span style="display:block;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#C7D4C8;margin-top:3px">{{ cidadesTxt }}</span>
+          </span>
+          <span style="display:block">
+            <span style="display:block;font:700 17px/1.3 'Hanken Grotesk',sans-serif">WhatsApp e Instagram</span>
+            <span style="display:block;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#C7D4C8;margin-top:3px">{{ zapVisivel }} · @terraboa3</span>
+          </span>
+        </div>
+        <a href="https://www.google.com/maps/search/?api=1&query=Terra+Boa+Agropecuaria+Av+Tocantins+1600+Setor+Leste+Anicuns+GO" target="_blank" rel="noopener" data-botao style="--tb-preenche:#93C24A;--tb-sobre:#12210F;display:inline-flex;align-items:center;gap:10px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);min-height:52px;padding:0 22px;border-radius:999px;font:700 17px/1 'Hanken Grotesk',sans-serif;margin-top:22px">Abrir o mapa</a>
+      </div>
+
+      <div data-sobe style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:28px">
+        <div style="display:grid;gap:12px">
+          <input value="{{ fNome }}" data-campo onInput="{{ setNome }}" placeholder="Seu nome" style="width:100%;min-height:56px;padding:0 16px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;font:400 17px/1.3 'Hanken Grotesk',sans-serif;outline:none">
+          <input value="{{ fCidade }}" data-campo onInput="{{ setCidade }}" placeholder="Sua cidade" style="width:100%;min-height:56px;padding:0 16px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;font:400 17px/1.3 'Hanken Grotesk',sans-serif;outline:none">
+          <select value="{{ fAssunto }}" data-campo onChange="{{ setAssunto }}" aria-label="Assunto" style="width:100%;min-height:56px;padding:0 12px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;font:400 17px/1.3 'Hanken Grotesk',sans-serif;outline:none">
+            <option value="Quero fazer um pedido" style="color:#111">Quero fazer um pedido</option>
+            <option value="Pet" style="color:#111">Produtos para pet</option>
+            <option value="Pecuária" style="color:#111">Pecuária</option>
+            <option value="Agricultura" style="color:#111">Agricultura</option>
+            <option value="Casa e lazer" style="color:#111">Casa e lazer</option>
+            <option value="Veterinário e vacinação" style="color:#111">Veterinário e vacinação</option>
+            <option value="Outro assunto" style="color:#111">Outro assunto</option>
+          </select>
+          <textarea value="{{ fMsg }}" data-campo onInput="{{ setMsg }}" rows="4" placeholder="O que você precisa?" style="width:100%;min-height:120px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;font:400 17px/1.5 'Hanken Grotesk',sans-serif;outline:none;resize:vertical"></textarea>
+        </div>
+        <a href="{{ waForm }}" target="_blank" rel="noopener" data-botao style="--tb-preenche:#fff;--tb-sobre:#12210F;display:flex;align-items:center;justify-content:center;gap:10px;background:#93C24A;color:#102014;min-height:56px;padding:0 22px;border-radius:999px;font:700 17px/1 'Hanken Grotesk',sans-serif;margin-top:14px">
+          Abrir o WhatsApp<span data-seta><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M2.5 8h10M9 4.5 12.5 8 9 11.5"/></svg></span>
+        </a>
+        <p style="margin:12px 0 0;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#C7D4C8">Sem cadastro e sem pagamento no site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:#0D2419;color:#CBD7CF;padding:36px clamp(16px,4vw,24px)">
+  <div style="max-width:1180px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px 30px">
+      <div>
+        <img src="/assets/marca/terraboa-logo-claro.webp" alt="Terra Boa Agropecuária" style="height:42px;width:auto;display:block">
+        <p style="margin:12px 0 0;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#93A79A">Cultivando confiança. Colhendo resultados.</p>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px 22px">
+        <a href="#inicio" style="display:inline-flex;align-items:center;min-height:48px;font:400 16px/1 'Hanken Grotesk',sans-serif;color:#CBD7CF">Início</a>
+        <a href="#categorias" style="display:inline-flex;align-items:center;min-height:48px;font:400 16px/1 'Hanken Grotesk',sans-serif;color:#CBD7CF">Produtos</a>
+        <a href="#ofertas" style="display:inline-flex;align-items:center;min-height:48px;font:400 16px/1 'Hanken Grotesk',sans-serif;color:#CBD7CF">Ofertas</a>
+        <a href="#identidade" style="display:inline-flex;align-items:center;min-height:48px;font:400 16px/1 'Hanken Grotesk',sans-serif;color:#CBD7CF">A Terra Boa</a>
+        <a href="#contato" style="display:inline-flex;align-items:center;min-height:48px;font:400 16px/1 'Hanken Grotesk',sans-serif;color:#CBD7CF">Contato</a>
+      </div>
+    </div>
+    <p style="margin:24px 0 0;font:400 16px/1.5 'Hanken Grotesk',sans-serif;color:#93A79A">Terra Boa Agropecuária · Anicuns, Goiás · {{ zapVisivel }}</p>
+  </div>
+</footer>
+
+<sc-if value="{{ arteAberta }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ fecharArte }}" style="position:fixed;inset:0;z-index:90;background:rgba(12,20,10,.92);overflow:auto;padding:clamp(12px,3vw,40px);cursor:zoom-out">
+    <img data-arte-grande src="/assets/marca/institucional-terraboa.webp" alt="Missão, Visão, Propósito e Valores da Terra Boa" style="display:block;margin:0 auto;width:1024px;max-width:none;height:auto">
+    <button onClick="{{ fecharArte }}" style="position:fixed;top:clamp(12px,2vw,24px);right:clamp(12px,2vw,24px);min-height:48px;padding:0 18px;background:#fff;color:#17201B;border:0;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif;cursor:pointer">Fechar</button>
+  </div>
+</sc-if>
+
+<sc-if value="{{ fotoAberta }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ fecharFoto }}" style="position:fixed;inset:0;z-index:95;background:rgba(12,20,10,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:clamp(16px,4vw,48px);cursor:zoom-out">
+    <img src="{{ fotoAberta }}" alt="{{ fotoAlt }}" style="display:block;max-width:min(1100px,100%);max-height:78vh;width:auto;height:auto;border-radius:10px">
+    <p style="margin:0;font:400 17px/1.5 'Hanken Grotesk',sans-serif;color:#D5E0D5;max-width:56ch;text-align:center;text-wrap:pretty">{{ fotoAlt }}</p>
+    <button onClick="{{ fecharFoto }}" style="position:fixed;top:clamp(12px,2vw,24px);right:clamp(12px,2vw,24px);min-height:48px;padding:0 20px;background:#fff;color:#17201B;border:0;border-radius:999px;font:700 16px/1 'Hanken Grotesk',sans-serif;cursor:pointer">Fechar</button>
+  </div>
+</sc-if>
+
+<a href="{{ waFlutuante }}" target="_blank" rel="noopener" data-flutuante style="position:fixed;right:20px;bottom:20px;z-index:60;display:inline-flex;align-items:center;gap:10px;background:#1FAA59;color:#fff;min-height:56px;padding:0 22px;border-radius:999px;font:700 17px/1 'Hanken Grotesk',sans-serif;box-shadow:0 15px 35px rgba(0,0,0,.22)">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" style="display:block;flex:0 0 auto"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.97L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.02c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.03.24-3.47-.72-2.94-1.16-4.79-4.2-4.93-4.4-.14-.19-1.16-1.55-1.16-2.96 0-1.4.73-2.09 1-2.38.26-.29.58-.36.77-.36.19 0 .39 0 .55.01.19.01.44-.7.68.53.24.6.82 2.01.89 2.16.7.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.29-.12.58.17.29.75 1.24 1.61 2.01 1.11.99 2.04 1.29 2.33 1.44.29.14.46.12.63-.7.17-.19.72-.84.92-1.13.19-.29.39-.24.65-.14.26.09 1.67.79 1.96.93.29.14.48.22.55.34.07.12.07.7-.17 1.38z"/></svg>Falar no WhatsApp
+</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900}}">
+const wa = (t) => 'https://wa.me/' + (window.TB_WHATSAPP || '5564984341168') + '?text=' + encodeURIComponent(t);
+const brl = (v) => 'R$ ' + v.toFixed(2).replace('.', ',');
+
+/* 09/10 · "A loja está aberta agora?", a partir do quadro que o Gilberto publica.
+   É a MESMA conta do src/lib/dominio/horario-do-site.ts, e a mesma regra:
+   quando não entende a linha, não diz nada. O site nunca chuta se está aberta. */
+const DIAS_COMO_SE_ESCREVE = { domingo: 0, dom: 0, segunda: 1, seg: 1, terca: 2, ter: 2, quarta: 3, qua: 3, quinta: 4, qui: 4, sexta: 5, sex: 5, sabado: 6, sab: 6 };
+const semAcento = (t) => String(t || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+function diasDaLinha(bruto) {
+  const texto = semAcento(bruto);
+  const faixa = texto.match(/([a-z]+)\s+a\s+([a-z]+)/);
+  if (faixa) {
+    const de = DIAS_COMO_SE_ESCREVE[faixa[1]], ate = DIAS_COMO_SE_ESCREVE[faixa[2]];
+    if (de !== undefined && ate !== undefined) {
+      const fora = [];
+      for (let d = de; ; d = (d + 1) % 7) { fora.push(d); if (d === ate) break; if (fora.length > 7) return []; }
+      return fora;
+    }
+  }
+  const fora = new Set();
+  texto.split(/[^a-z]+/).forEach(p => { if (DIAS_COMO_SE_ESCREVE[p] !== undefined) fora.add(DIAS_COMO_SE_ESCREVE[p]); });
+  return [...fora].sort();
+}
+function horasDaLinha(bruto) {
+  const texto = semAcento(bruto);
+  const numeros = [...texto.matchAll(/(\d{1,2})\s*(?:[h:]\s*(\d{2}))?/g)].map(m => {
+    const hora = Number(m[1]), minuto = m[2] === undefined ? 0 : Number(m[2]);
+    if (hora > 24 || minuto > 59) return null;
+    return hora + minuto / 60;
+  }).filter(n => n !== null);
+  if (numeros.length < 2 || numeros[1] <= numeros[0]) return null;
+  return { de: numeros[0], ate: numeros[1] };
+}
+/* true, false, ou null quando não dá pra saber */
+function abertaAgora(linhas, quando) {
+  const dia = quando.getDay(), hora = quando.getHours() + quando.getMinutes() / 60;
+  const daHoje = linhas.find(l => diasDaLinha(l.dias).includes(dia));
+  if (!daHoje) return null;
+  const horas = horasDaLinha(daHoje.horas);
+  if (!horas) return /fechad/.test(semAcento(daHoje.horas)) ? false : null;
+  return hora >= horas.de && hora < horas.ate;
+}
+/* o quadro curto da barra do topo: "seg a sex 7h às 18h, sáb 7h às 13h" */
+function quadroCurto(linhas) {
+  const curto = (d) => semAcento(d).replace('segunda', 'seg').replace('terca', 'ter').replace('quarta', 'qua').replace('quinta', 'qui').replace('sexta', 'sex').replace('sabado', 'sáb').replace('domingo', 'dom');
+  const texto = linhas.filter(l => !/fechad/.test(semAcento(l.horas))).map(l => curto(l.dias) + ' ' + l.horas).join(', ');
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+class Component extends DCLogic {
+  /* 09/10: destaques e horarioLinhas chegam do sistema depois que a tela abre
+     (null = ainda não perguntou). Até lá: sem ofertas, e o horário de loja-config. */
+  state = { menuAberto: false, nome: '', cidade: '', assunto: 'Quero fazer um pedido', msg: '', larga: true, destaques: null, atualizado: '', horarioLinhas: null };
+
+  componentDidMount() {
+    this.reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!window.TB_CIDADES) {
+      this._espera = setInterval(() => {
+        if (window.TB_CIDADES) { clearInterval(this._espera); this.forceUpdate(); }
+      }, 120);
+      setTimeout(() => clearInterval(this._espera), 6000);
+    }
+    this.medir();
+    this._onResize = () => this.medir();
+    window.addEventListener('resize', this._onResize);
+    this.ligarMotion();
+    this.ligarRolagem();
+    this.trocarFoto();
+    this.perguntarAoSistema();
+  }
+
+  /* 09/10: as ofertas e o horário vêm do sistema, e não mais do loja-config.
+     Decisão do Brian (DECISOES.md 09/10): a home estática fica, ligada no
+     banco só nestas duas coisas. Se a porta falhar, a seção de ofertas some e o
+     horário continua o de loja-config: a tela nunca quebra por causa disso. */
+  perguntarAoSistema() {
+    /* 26/10: o site mora numa Vercel e o sistema em outra. As ofertas e o
+       horário continuam vindo do sistema da loja, por este endereço. */
+    const SISTEMA = 'https://sistema.terraboagro.com.br';
+    const comSistema = (f) => (f && f.charAt(0) === '/') ? SISTEMA + f : f;
+    fetch(SISTEMA + '/api/destaques', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : { destaques: [] })
+      .then(d => this.setState({ destaques: Array.isArray(d.destaques) ? d.destaques.map(x => ({ ...x, foto: comSistema(x.foto) })) : [], atualizado: d.atualizado || '' }))
+      .catch(() => this.setState({ destaques: [] }));
+    fetch(SISTEMA + '/api/horario', { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : { linhas: [] })
+      .then(d => { if (Array.isArray(d.linhas) && d.linhas.length > 0) this.setState({ horarioLinhas: d.linhas }); })
+      .catch(() => {});
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._espera);
+    clearInterval(this._tMotion);
+    clearInterval(this._tFoto);
+    clearInterval(this._tRol);
+    window.removeEventListener('resize', this._onResize);
+    if (this._rolagem) window.removeEventListener('scroll', this._rolagem);
+    if (this._io) this._io.disconnect();
+  }
+
+  componentDidUpdate() { this.medir(); this.registrar && this.registrar(); }
+
+  /* quem decide o menu é a largura: acima de 980px a barra inteira aparece */
+  medir() {
+    const larga = (document.documentElement.clientWidth || window.innerWidth) >= 980;
+    document.querySelectorAll('[data-nav]').forEach(n => { n.style.display = larga ? 'inline-flex' : 'none'; });
+    const b = document.querySelector('[data-burger]');
+    if (b) b.style.display = larga ? 'none' : 'flex';
+    /* no celular a barra fixa vira largura cheia e a página reserva o pé */
+    const f = document.querySelector('[data-flutuante]');
+    const estreito = (document.documentElement.clientWidth || window.innerWidth) < 620;
+    if (f) {
+      f.style.left = estreito ? '14px' : 'auto';
+      f.style.right = '14px';
+      f.style.bottom = '14px';
+      f.style.justifyContent = 'center';
+    }
+    document.body.style.paddingBottom = estreito ? '88px' : '';
+    if (larga !== this.state.larga) this.setState({ larga });
+  }
+
+  /* entrada em cascata: uma vez por elemento, com rede por temporizador porque
+     observer e rAF não são entregues em documento oculto */
+  ligarMotion() {
+    if (this.reduzido) {
+      document.querySelectorAll('[data-sobe]').forEach(e => e.classList.add('vis'));
+      return;
+    }
+    const grupos = new Map();
+    const mostrar = (el) => {
+      if (el.classList.contains('vis')) return;
+      const sec = el.closest('section,footer,header') || document.body;
+      const agora = performance.now();
+      const t = grupos.get(sec);
+      if (!t || agora - t.quando > 700) grupos.set(sec, { quando: agora, n: 0 });
+      const g = grupos.get(sec);
+      const atraso = Math.min(g.n * 70, 420);
+      g.n++;
+      setTimeout(() => {
+        el.classList.add('vis');
+        const n = el.querySelector('[data-conta]') || (el.hasAttribute('data-conta') ? el : null);
+        if (n) this.contar(n);
+      }, atraso);
+    };
+    this.varrer = () => {
+      const vh = window.innerHeight;
+      document.querySelectorAll('[data-sobe]:not(.vis)').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh * 0.94 && r.bottom > -40) mostrar(el);
+      });
+    };
+    window.addEventListener('scroll', this.varrer, { passive: true });
+    this.registrar = this.varrer;
+    clearInterval(this._tMotion);
+    this._tMotion = setInterval(() => {
+      this.varrer();
+      if (!document.querySelector('[data-sobe]:not(.vis)')) clearInterval(this._tMotion);
+    }, 350);
+    this.varrer();
+  }
+
+  /* barra de leitura, cabeçalho que encolhe e profundidade nos fundos.
+     um ouvinte só, com rede por temporizador porque este runtime não entrega
+     evento de rolagem em documento oculto. */
+  ligarRolagem() {
+    const barra = document.querySelector('[data-leitura]');
+    const fundos = Array.from(document.querySelectorAll('[data-fundo]'));
+    let pedindo = false;
+    const passo = () => {
+      const vh = window.innerHeight;
+      const curso = document.documentElement.scrollHeight - vh;
+      const p = curso > 0 ? Math.min(1, window.scrollY / curso) : 0;
+      if (barra) barra.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+      document.documentElement.setAttribute('data-rolou', window.scrollY > vh * 0.45 ? '1' : '0');
+      if (!this.reduzido) {
+        fundos.forEach(el => {
+          const r = el.parentElement.getBoundingClientRect();
+          if (r.bottom < -200 || r.top > vh + 200) return;
+          const d = (r.top + r.height / 2 - vh / 2) / vh;
+          /* a escala fica no eixo Y só, senão o fundo transborda a largura */
+          el.style.transform = 'translate3d(0,' + (-d * 22).toFixed(1) + 'px,0) scaleY(1.1)';
+        });
+      }
+      pedindo = false;
+    };
+    this._rolagem = () => { if (!pedindo) { pedindo = true; requestAnimationFrame(passo); } };
+    window.addEventListener('scroll', this._rolagem, { passive: true });
+    clearInterval(this._tRol);
+    this._tRol = setInterval(passo, 250);
+    passo();
+  }
+
+  contar(el) {
+    const alvo = Number(el.getAttribute('data-conta')) || 0;
+    if (el._feito) return;
+    el._feito = true;
+    if (document.visibilityState !== 'visible') { el.textContent = String(alvo); return; }
+    const dur = 1100, t0 = performance.now();
+    el.textContent = '0';
+    const t = setInterval(() => {
+      const p = Math.min(1, (performance.now() - t0) / dur);
+      el.textContent = String(Math.round(alvo * (1 - Math.pow(1 - p, 3))));
+      if (p >= 1) clearInterval(t);
+    }, 30);
+    setTimeout(() => { clearInterval(t); el.textContent = String(alvo); }, dur + 300);
+  }
+
+  /* as quatro fotos do topo se trocam sozinhas, sem vídeo */
+  trocarFoto() {
+    const img = document.querySelector('[data-hero-img]');
+    if (!img || this.reduzido) return;
+    /* a fachada é o fundo fixo do topo: sem rodízio, é a cara da loja */
+    const fotos = ['arte-fachada'];
+    if (fotos.length < 2) return;
+    let i = 0;
+    img.style.transition = 'opacity 700ms ease';
+    clearInterval(this._tFoto);
+    this._tFoto = setInterval(() => {
+      i = (i + 1) % fotos.length;
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = '/assets/fotos/' + fotos[i] + '.webp';
+        img.style.opacity = '1';
+      }, 700);
+    }, 6000);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const cidades = window.TB_CIDADES || ['Anicuns'];
+    /* 09/10: o que o Gilberto marcou em "A loja → Destaques", via /api/destaques */
+    const promos = s.destaques || [];
+    const linhas = [];
+    if (s.nome) linhas.push('Meu nome é ' + s.nome + '.');
+    if (s.cidade) linhas.push('Sou de ' + s.cidade + '.');
+    linhas.push('Assunto: ' + s.assunto + '.');
+    if (s.msg) linhas.push(s.msg);
+
+    /* horário: o quadro publicado pelo Gilberto (/api/horario), ou o de
+       loja-config até ele responder; "aberta agora" pelo relógio de quem vê */
+    const linhasDoHorario = s.horarioLinhas || window.TB_HORARIO || [];
+    const aberta = abertaAgora(linhasDoHorario, new Date());
+    const quadro = quadroCurto(linhasDoHorario);
+
+    return {
+      corStatus: aberta === null ? '#DCEBC2' : aberta ? '#93C24A' : '#C98A56',
+      horario: (aberta === null ? '' : aberta ? 'Aberta agora · ' : 'Fechada agora · ') + quadro,
+      menuAberto: s.menuAberto,
+      arteAberta: !!s.arteAberta,
+      abrirArte: () => this.setState({ arteAberta: true }),
+      fecharArte: () => this.setState({ arteAberta: false }),
+      toggleMenu: () => this.setState({ menuAberto: !s.menuAberto }),
+      fecharMenu: () => this.setState({ menuAberto: false }),
+      zapVisivel: window.TB_WHATSAPP_VISIVEL || '(64) 98434-1168',
+      /* 09/10: o Matheus pediu em áudio de 28/08 ("não coloca cidade, não: a
+         gente entrega em Anicuns e região, só isso que já fica abrangente").
+         A lista TB_CIDADES continua no loja-config pra quem precisar dela. */
+      cidadesTxt: 'Anicuns e região.',
+      atualizado: s.atualizado || '',
+      temOfertas: promos.length > 0,
+
+      areas: [
+        { nome: 'Pet', foto: '/assets/fotos/arte-pet.webp', alt: 'Um cão e um gato juntos na varanda, em luz de manhã',
+          txt: 'Ração, petisco, areia, acessório e vacina.',
+          wa: wa('Oi! Vim pelo site da Terra Boa. Queria saber sobre produtos para pet.') },
+        /* 09/10: o saco de sal mineral da Guabi, foto real da loja. O Matheus
+           pediu duas vezes ("é o que mais vende"); marca de terceiro na foto foi
+           decisão do Brian em 09/10. A selaria continua no disco (orig-selaria). */
+        { nome: 'Pecuária', foto: '/assets/fotos/orig-guabi-sal-mineral.webp', alt: 'Saco de suplemento mineral para bovinos na prateleira da loja',
+          txt: 'Sal mineral, ração, vacina, cerca e arame.',
+          wa: wa('Oi! Vim pelo site da Terra Boa. Queria saber sobre produtos para pecuária.') },
+        { nome: 'Agricultura', foto: '/assets/fotos/arte-agricultura.webp', alt: 'Lavoura de milho jovem em terra vermelha',
+          txt: 'Semente, adubo, pulverizador e defensivo.',
+          wa: wa('Oi! Vim pelo site da Terra Boa. Queria saber sobre produtos para agricultura.') },
+        { nome: 'Casa e lazer', foto: '/assets/fotos/arte-lazer.webp', alt: 'Quintal de casa do interior com piscina pequena',
+          txt: 'Piscina, jardim, ferramenta, botina e pesca.',
+          wa: wa('Oi! Vim pelo site da Terra Boa. Queria saber sobre casa e lazer.') }
+      ],
+
+      /* as ofertas vêm do sistema, já com preço (ou "valor no WhatsApp") e a
+         foto do item quando ele tem. Lista vazia esconde a seção e a aba. */
+      ofertas: promos.slice(0, 4).map(p => ({
+        frente: p.frente, titulo: p.titulo, tamanho: p.tamanho,
+        preco: p.preco, nota: p.nota,
+        foto: p.foto || '', mostraFoto: p.foto ? 'block' : 'none',
+        wa: wa('Oi! Vi a oferta "' + p.titulo + '" no site e queria saber a condição da semana.')
+      })),
+
+      /* fotos reais da loja: é o espaço que o dono pediu para elas */
+      fotoAberta: s.fotoAberta || '',
+      fotoAlt: s.fotoAlt || '',
+      fecharFoto: () => this.setState({ fotoAberta: '', fotoAlt: '' }),
+
+      /* fotos reais da loja, todas com a mesma calibragem e proporção */
+      galeria: [
+        { foto: '/assets/fotos/loja-corredor.webp', alt: 'Corredor de rações da loja, com sacarias empilhadas' },
+        { foto: '/assets/fotos/loja-pet.webp', alt: 'Seção de pet shop, com caixas de transporte e caminhas' },
+        { foto: '/assets/fotos/loja-sacaria.webp', alt: 'Sacaria de nutrição animal empilhada em paletes' },
+        /* 09/10: a equipe no cantinho do café (foto do Matheus) entrou no lugar
+           da selaria: aquela saía quase só teto e uma placa de fornecedor maior
+           que a marca da loja, e com nove fotos a grade terminava numa sozinha.
+           A selaria continua no disco (loja-selaria.webp), e pra voltar e trocar
+           esta linha. */
+        { foto: '/assets/fotos/loja-equipe-cafe.webp', alt: 'A equipe da Terra Boa no cantinho do café, com a lousa escrita à mão' },
+        { foto: '/assets/fotos/loja-jardim.webp', alt: 'Expositor de ferramentas de jardinagem' },
+        { foto: '/assets/fotos/loja-piscina.webp', alt: 'Prateleira de produtos para tratamento de piscina' },
+        { foto: '/assets/fotos/loja-botina.webp', alt: 'Prateleira de botinas' },
+        { foto: '/assets/fotos/loja-caixa.webp', alt: 'O caixa e o balcão de atendimento da loja' }
+      ].map(g => Object.assign({}, g, {
+        abrir: () => this.setState({ fotoAberta: g.foto, fotoAlt: g.alt })
+      })),
+
+      diferenciais: [
+        /* 09/10: imagem gerada da consulta (o Matheus pediu "cachorro sendo
+           medicado"; o Brian aprovou como veio). O escritório continua no disco
+           (g-gilberto.webp). Troca pela foto real do Gilberto quando vier. */
+        { titulo: 'Veterinário na loja', txt: 'Consulta no balcão, sem custo.',
+          foto: '/assets/fotos/arte-veterinario.webp', alt: 'Um cão sendo examinado na mesa do veterinário' },
+        /* 09/10: o saco de ração Quatree, foto real da loja, no lugar da sacaria
+           sem marca. O Matheus (16h42 de 28/08) quer as marcas aparecendo. Fica
+           até chegar a foto da prateleira com as três que ele citou. */
+        { titulo: 'Marcas consolidadas', txt: 'As que o produtor já conhece e pede pelo nome.',
+          foto: '/assets/fotos/g-marcas-quatree.webp', alt: 'Saco de ração Quatree Supreme na prateleira da loja' },
+        /* 09/10: a foto da equipe atrás do balcão, que o Matheus prometeu em áudio
+           de 28/08 ("o atendimento: vou tirar uma foto de todos os funcionários")
+           e mandou em 09/10. Recortada pra tirar a placa de outro profissional. */
+        { titulo: 'Atendimento diferenciado', txt: 'A gente pergunta antes de indicar.',
+          foto: '/assets/fotos/g-equipe.webp', alt: 'A equipe da Terra Boa atrás do balcão da loja' },
+        { titulo: '35 anos de confiança', txt: 'Desde 1991, no mesmo lugar.',
+          foto: '/assets/fotos/g-fachada.webp', alt: 'A fachada da loja em dia de sol' }
+      ],
+
+
+      valores: ['Compromisso com o cliente', 'Ética e honestidade', 'Qualidade', 'Compromisso com o agronegócio', 'Inovação', 'Respeito às pessoas e aos animais', 'Responsabilidade'],
+
+      /* PROVISORIO · avaliações de exemplo até o dono mandar as reais do Google */
+      avaliacoes: [].slice(0, 3).map(d => Object.assign({}, d, {
+        estrelas: [1,2,3,4,5].map(i => i <= d.n ? '★' : '☆')
+      })),
+
+      fNome: s.nome, fCidade: s.cidade, fAssunto: s.assunto, fMsg: s.msg,
+      setNome: (e) => this.setState({ nome: e.target.value }),
+      setCidade: (e) => this.setState({ cidade: e.target.value }),
+      setAssunto: (e) => this.setState({ assunto: e.target.value }),
+      setMsg: (e) => this.setState({ msg: e.target.value }),
+
+      waTopo: wa('Oi! Vim pelo site da Terra Boa e queria falar com a loja.'),
+      waPedido: wa('Oi! Vim pelo site da Terra Boa e quero montar um pedido.'),
+      waVacina: wa('Oi! Vim pelo site. Queria mandar a foto da carteirinha de vacina do meu animal.'),
+      waResolver: wa('Oi! Vim pelo site da Terra Boa. Não sei o nome do que eu preciso, queria falar com alguém.'),
+      waFlutuante: wa('Oi! Vim pelo site da Terra Boa e queria falar com a loja.'),
+      waDepoimento: wa('Oi! Vim pelo site da Terra Boa e queria deixar meu depoimento sobre a loja.'),
+      waForm: wa(linhas.join(' '))
+    };
+  }
+}
+</script>
+</body>
+</html>
